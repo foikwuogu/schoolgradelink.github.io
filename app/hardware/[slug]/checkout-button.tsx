@@ -2,37 +2,44 @@
 
 import { useState } from 'react'
 
-export function CheckoutButton({ productId, disabled }: { productId: string; disabled: boolean }) {
+export function CheckoutButton({ productName, price, disabled }: { productName: string; price?: number; disabled: boolean }) {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  async function beginCheckout(event: React.FormEvent<HTMLFormElement>) {
+  function generateInvoice(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
-    setIsSubmitting(true)
-
-    try {
-      const response = await fetch('/api/checkout/paystack', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productId, email }),
-      })
-      const result = await response.json()
-
-      if (!response.ok || !result.authorizationUrl) {
-        throw new Error(result.error || 'Unable to begin checkout.')
-      }
-
-      window.location.assign(result.authorizationUrl)
-    } catch (checkoutError) {
-      setError(checkoutError instanceof Error ? checkoutError.message : 'Unable to begin checkout.')
-      setIsSubmitting(false)
+    if (typeof price !== 'number' || price <= 0) {
+      setError('This product does not have a valid price yet.')
+      return
     }
+
+    const invoiceNumber = `SGL-${Date.now().toString(36).toUpperCase()}`
+    const invoice = [
+      'SCHOOLGRADE LINK',
+      'PURCHASE INVOICE',
+      '',
+      `Invoice: ${invoiceNumber}`,
+      `Date: ${new Date().toLocaleDateString()}`,
+      `Buyer email: ${email}`,
+      '',
+      `Product: ${productName}`,
+      `Amount due: NGN ${price.toLocaleString()}`,
+      '',
+      'Payment instructions will be provided by the SchoolGrade Link team.',
+      'Contact: schoolgrade4all@gmail.com | +234 807 641 9643',
+    ].join('\n')
+    const blob = new Blob([invoice], { type: 'text/plain;charset=utf-8' })
+    const downloadUrl = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = `${invoiceNumber}.txt`
+    link.click()
+    URL.revokeObjectURL(downloadUrl)
   }
 
   return (
-    <form onSubmit={beginCheckout} className="mt-6 space-y-3">
+    <form onSubmit={generateInvoice} className="mt-6 space-y-3">
       <label className="block text-sm font-medium text-gray-700">
         Email for your receipt
         <input
@@ -46,10 +53,10 @@ export function CheckoutButton({ productId, disabled }: { productId: string; dis
       </label>
       <button
         type="submit"
-        disabled={disabled || isSubmitting}
+        disabled={disabled}
         className="w-full rounded-md bg-sglinkBlue px-4 py-2 text-sm font-semibold text-white transition hover:bg-sglinkDark disabled:cursor-not-allowed disabled:bg-gray-400"
       >
-        {disabled ? 'Unavailable' : isSubmitting ? 'Opening secure checkout...' : 'Checkout securely'}
+        {disabled ? 'Unavailable' : 'Generate purchase invoice'}
       </button>
       {error && <p className="text-sm text-red-700">{error}</p>}
     </form>

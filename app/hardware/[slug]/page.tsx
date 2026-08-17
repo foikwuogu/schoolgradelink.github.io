@@ -53,7 +53,7 @@ export default async function ProductPage({
           {typeof product.price === 'number' && (
             <p className="mt-3 text-sm font-semibold">&#8358;{product.price.toLocaleString()}</p>
           )}
-          <CheckoutButton productId={product._id} disabled={product.available === false} />
+          <CheckoutButton productName={product.name} price={product.price} disabled={product.available === false} />
         </div>
       </div>
     </div>
