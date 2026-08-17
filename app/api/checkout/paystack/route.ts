@@ -1,5 +1,17 @@
 import { NextResponse } from 'next/server'
-import { sanityClient } from '@/lib/sanity'
+import { createClient } from '@sanity/client'
+
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+const sanityClient = projectId && dataset
+  ? createClient({
+      projectId,
+      dataset,
+      apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2026-08-14',
+      token: process.env.SANITY_WRITE_TOKEN || process.env.SANITY_API_WRITE_TOKEN,
+      useCdn: false,
+    })
+  : null
 
 type Product = {
   _id: string
@@ -13,6 +25,10 @@ export async function POST(request: Request) {
 
   if (!paystackSecretKey) {
     return NextResponse.json({ error: 'Online payments are not configured yet.' }, { status: 503 })
+  }
+
+  if (!sanityClient) {
+    return NextResponse.json({ error: 'Sanity is not configured on the server.' }, { status: 503 })
   }
 
   const body = await request.json().catch(() => null)
