@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ :root {
+  --sglink-blue: #004685;
+  --sglink-dark-blue: #002d55;
+  --sglink-green: #71ac1d;
+  --sglink-offwhite: #f5f5f5;
+  --sglink-text: #323636;
+  --sglink-muted: #868686;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-slate-900 antialiased;
+  color: var(--sglink-text);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--sglink-text);
+  line-height: 1.2;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+@layer components {
+  .sg-section {
+    @apply px-4 py-16 sm:py-20 lg:py-24;
+  }
+
+  .sg-container {
+    @apply mx-auto w-full max-w-7xl px-2 sm:px-4 lg:px-6;
+  }
+
+  .sg-card {
+    @apply rounded-lg border border-slate-200 bg-white shadow-sm;
+  }
+}
