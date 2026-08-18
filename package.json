@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "build": "next build",
+    "build:local": "next build --webpack",
     "import:inteleca": "node scripts/import-inteleca-transceivers.mjs",
     "start": "next start",
     "lint": "next lint"
