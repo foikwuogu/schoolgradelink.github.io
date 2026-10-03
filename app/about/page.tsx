@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { team } from '@/lib/team'
@@ -29,6 +29,8 @@ const educationalTraining = [
 ]
 
 export default function AboutPage() {
+  const reduceMotion = useReducedMotion()
+
   return (
     <div>
       <section className="relative overflow-hidden bg-[#174f83] px-6 py-24 text-white sm:py-28">
@@ -59,7 +61,13 @@ export default function AboutPage() {
       <section aria-labelledby="educational-training-heading" className="bg-gray-50 px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 id="educational-training-heading" className="text-center text-3xl font-bold">Our Educational Training</h2>
-          <p className="mt-3 text-center text-base text-gray-600">newest training module 2026</p>
+          <motion.p
+            animate={{ y: reduceMotion ? 0 : [0, -4, 0] }}
+            transition={{ duration: reduceMotion ? 0 : 4, repeat: reduceMotion ? 0 : Infinity, ease: 'easeInOut' }}
+            className="mt-3 text-center text-base font-medium italic text-sglinkBlue"
+          >
+            Newest Training Module 2026
+          </motion.p>
           <ul className="mx-auto mt-10 max-w-4xl divide-y divide-gray-200 border-y border-gray-200">
             {educationalTraining.map((training) => (
               <li key={training.href} className="py-6">
