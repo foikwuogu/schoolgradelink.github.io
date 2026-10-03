@@ -5,6 +5,29 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { team } from '@/lib/team'
 
+const educationalTraining = [
+  {
+    title: 'AI Junior Track: A 24-Hour Beginner Training Module and Slide Deck for Early-Career Engineers (IEEE Computer Society Region 8 AI Caravan 2026)',
+    href: 'https://zenodo.org/records/23005192',
+  },
+  {
+    title: 'AI Viber Track: Course Materials for AI-Assisted Software Engineering (IEEE CS Region 8 AI Caravan 2026)',
+    href: 'https://zenodo.org/records/23004667',
+  },
+  {
+    title: 'Engineering Roles in Critical-Infrastructure Awareness: Foundations, Responsibilities, and Professional Practice for Emerging Engineer',
+    href: 'https://zenodo.org/records/22864273',
+  },
+  {
+    title: 'Engineering Roles in Infrastructure Resilience: A Mentorship Workshop for Students, Early-Career Engineers, and Professionals',
+    href: 'https://zenodo.org/records/22858920',
+  },
+  {
+    title: 'CITP-Aligned Mentorship Workshop Materials for OT/ICS & Critical Infrastructure Cybersecurity Mentees',
+    href: 'https://zenodo.org/records/22858230',
+  },
+]
+
 export default function AboutPage() {
   return (
     <div>
@@ -33,7 +56,32 @@ export default function AboutPage() {
         </motion.div>
       </section>
 
-      <section className="bg-gray-50 px-6 py-20"><div className="mx-auto max-w-6xl text-center"><h2 className="text-3xl font-bold">Our Story</h2><p className="mx-auto mt-4 max-w-3xl text-gray-600">Learn how SGLink is transforming cybersecurity education and critical infrastructure protection across Nigeria.</p><div className="mx-auto mt-10 flex aspect-video max-w-4xl items-center justify-center rounded-lg bg-slate-900 p-8 text-sm text-slate-300 shadow-lg">SchoolGrade Link story video coming soon</div></div></section>
+      <section aria-labelledby="educational-training-heading" className="bg-gray-50 px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="educational-training-heading" className="text-center text-3xl font-bold">Our Educational Training</h2>
+          <ul className="mx-auto mt-10 max-w-4xl divide-y divide-gray-200 border-y border-gray-200">
+            {educationalTraining.map((training) => (
+              <li key={training.href} className="py-6">
+                <a href={training.href} className="block break-words rounded-sm text-lg font-semibold leading-7 text-sglinkBlue underline decoration-sglinkBlue/30 underline-offset-4 hover:decoration-sglinkBlue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sglinkBlue">
+                  {training.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <details className="mx-auto mt-6 max-w-4xl text-sm text-gray-600">
+            <summary className="cursor-pointer font-semibold">Author</summary>
+            <p className="mt-3 whitespace-pre-wrap break-words leading-6">{`Friday Ogochukwu Ikwuogu
+ORCID: 0009-0009-2222-1318
+Google Scholar: https://scholar.google.com/citations?pli=1&authuser=3&user=XADxRNkAAAAJ
+ResearchGate: https://www.researchgate.net/profile/Friday-O-Ikwuogu/research
+GitHub: https://github.com/foikwuogu
+Portfolio: Ikwuogufoikwuogu.github.io
+LinkedIn: Ogochukwu Friday Ikwuogu
+email: Friday.ikwuogu@gmail.com|ikwuogu_f57913@utpb.edu | ogochukwu.f.ikwuogu@ieee.org
+Affiliation: Independent Researcher, Odessa, Texas, USA`}</p>
+          </details>
+        </div>
+      </section>
 
       <section className="bg-slate-100 px-6 py-20"><div className="mx-auto max-w-6xl"><p className="text-center text-xs font-bold uppercase tracking-[.16em] text-sglinkBlue">People behind the work</p><h2 className="mt-3 text-center text-3xl font-bold">Our Team</h2><div className="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">{team.map((person, index) => <motion.article key={person.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.35) }} className="group"><Link href={`/about/team/${person.slug}`} className="block"><div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-slate-200"><Image src={person.photo} alt={person.name} fill sizes="(min-width: 1024px) 31vw, (min-width: 640px) 45vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" /></div><h3 className="mt-4 text-lg font-bold group-hover:text-sglinkBlue">{person.name}</h3><p className="mt-1 text-sm text-slate-600">{person.role}</p></Link></motion.article>)}</div></div></section>
 
