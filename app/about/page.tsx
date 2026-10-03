@@ -59,6 +59,7 @@ export default function AboutPage() {
       <section aria-labelledby="educational-training-heading" className="bg-gray-50 px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 id="educational-training-heading" className="text-center text-3xl font-bold">Our Educational Training</h2>
+          <p className="mt-3 text-center text-base text-gray-600">newest training module 2026</p>
           <ul className="mx-auto mt-10 max-w-4xl divide-y divide-gray-200 border-y border-gray-200">
             {educationalTraining.map((training) => (
               <li key={training.href} className="py-6">
